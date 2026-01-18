@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberSwipeToDismissBoxState
@@ -39,6 +43,8 @@ fun TasksScreen(viewModel: MainViewModel, navController: NavController) {
 
     val tasks by viewModel.tasks.collectAsState()
 
+    val darkMode by viewModel.switchState.collectAsState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
@@ -50,7 +56,30 @@ fun TasksScreen(viewModel: MainViewModel, navController: NavController) {
         },
         topBar = {
             TopAppBar(
-                title = { Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, text = "Loom") }
+                title = { Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    text = "Loom"
+                ) },
+                actions = {
+                    Switch(
+                        modifier = Modifier.padding(horizontal = 10.dp),
+                        checked = darkMode,
+                        onCheckedChange = {
+                            viewModel.saveSwitchState(it)
+                        },
+                        thumbContent = {
+                            Icon(
+                                imageVector = if (darkMode)
+                                    Icons.Default.DarkMode
+                                else
+                                    Icons.Default.LightMode,
+                                contentDescription = null,
+                                modifier = Modifier.size(12.dp)
+                            )
+                        }
+                    )
+                }
             )
         }
     ) {
