@@ -21,10 +21,10 @@ fun Navigation(viewModel: MainViewModel) {
             TasksScreen(viewModel=viewModel, navController=navController)
         }
 
-        composable(route="edit/{taskId}",
-            arguments = listOf(navArgument("taskId") {
-                type = NavType.IntType
-            }),
+        composable(route="edit/{taskId}/{task}",
+            arguments = listOf(
+                navArgument("taskId") { type = NavType.IntType },
+                navArgument(name = "task") { type = NavType.StringType }),
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
@@ -37,7 +37,10 @@ fun Navigation(viewModel: MainViewModel) {
                 )
             }
         ) {
-            EditTask(viewModel=viewModel, navController=navController)
+            val taskId = it.arguments?.getInt("taskId")!!
+            val task = it.arguments?.getString("task")!!
+
+            EditTask(viewModel=viewModel, navController=navController, taskId = taskId, task=task)
         }
 
         composable(
