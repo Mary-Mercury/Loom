@@ -25,13 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.loom.Data.Tasks
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTask(viewModel: MainViewModel, navController: NavController) {
+fun EditTask(viewModel: MainViewModel, navController: NavController, taskId: Int, task: String) {
 
-    var task by remember { mutableStateOf("") }
+    var task by remember { mutableStateOf(task) }
     var inputError by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -77,7 +76,7 @@ fun EditTask(viewModel: MainViewModel, navController: NavController) {
             OutlinedButton(
                 onClick = {
                     if (task != "") {
-                        viewModel.addNewTask(task)
+                        viewModel.editTask(taskId, task)
                         navController.popBackStack()
                     } else {
                         inputError = true

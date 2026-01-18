@@ -1,11 +1,7 @@
 package com.example.loom.Data
 
-import android.R
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 
@@ -26,7 +22,4 @@ interface TasksDAO {
 
     @Query("UPDATE Tasks SET task = :newTask WHERE id = :taskId")
     suspend fun updateTask(taskId: Int, newTask: String)
-
-    @Query("SELECT * FROM Tasks WHERE id = :taskId")
-    suspend fun getEditTask(taskId: Int): Tasks
 }
